@@ -3,6 +3,15 @@ import React from "react";
 import UserApi from "../../UserApi.js";
 
 export default class TicTacToe extends GameComponent {
+  constructor(props) {
+    super(props);
+    this.getSessionDatabaseRef().set({ text: "Hello, World!" });
+  }
+
+  onSessionDataChanged(data) {
+    console.log("Data changed!", data);
+  }
+
   render() {
     var id = this.getSessionId();
     var users = this.getSessionUserIds().map(user_id => (

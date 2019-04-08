@@ -105,8 +105,8 @@ const gameData = {
     title: "Tug Of War",
     authors: "Joel Veras",
     description: "Pull the rope and win ",
-    minUsers: 4,
-    maxUsers: 4,
+    minUsers: 1,
+    maxUsers: 1,
     component: TugOfWar
   }
 };

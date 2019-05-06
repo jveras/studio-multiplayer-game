@@ -34,11 +34,18 @@ export default class TugOfWar extends GameComponent {
     };
   }
 
+  gameOver() {
+    var usernames = this.state.users.map;
+  }
+
   componentWillUnmount() {
     document.body.onkeyup = null;
+    super.componentWillUnmount();
   }
 
   render() {
+    this.gameOver();
+
     var id = this.getSessionId();
     var users = this.getSessionUserIds().map(user_id => (
       <li key={user_id}>

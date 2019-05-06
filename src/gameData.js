@@ -24,8 +24,8 @@ const gameData = {
     title: "Tic Tac Toe",
     authors: "Joe Tessler",
     description: "The classic two-player game with Xs and Os",
-    minUsers: 2,
-    maxUsers: 2,
+    minUsers: 1,
+    maxUsers: 1,
     component: TicTacToe
   },
 
@@ -105,8 +105,8 @@ const gameData = {
     title: "Tug Of War",
     authors: "Joel Veras",
     description: "Pull the rope and win ",
-    minUsers: 1,
-    maxUsers: 1,
+    minUsers: 2,
+    maxUsers: 2,
     component: TugOfWar
   }
 };

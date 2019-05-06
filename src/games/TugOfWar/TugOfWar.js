@@ -35,7 +35,7 @@ export default class TugOfWar extends GameComponent {
   }
 
   gameOver() {
-    var usernames = this.state.users.map;
+    //var usernames = this.state.users.map
   }
 
   componentWillUnmount() {

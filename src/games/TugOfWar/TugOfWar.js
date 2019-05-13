@@ -1,6 +1,7 @@
 import GameComponent from "../../GameComponent.js";
 import React from "react";
 import UserApi from "../../UserApi.js";
+import "./TugOfWar.css";
 
 export default class TugOfWar extends GameComponent {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class TugOfWar extends GameComponent {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     document.body.onkeyup = e => {
       if (e.keyCode === 32) {
         var user = this.getMyUserId();
@@ -43,9 +45,16 @@ export default class TugOfWar extends GameComponent {
     super.componentWillUnmount();
   }
 
+  getSpaceBarDifference() {
+    var counters = this.getSessionUserIds().map(user_id => this.state[user_id]);
+    console.log("HELLOOO");
+    var dif = counters[0] - counters[1];
+    return dif * 10;
+  }
+
   render() {
     this.gameOver();
-
+    var marginLeft = this.getSpaceBarDifference();
     var id = this.getSessionId();
     var users = this.getSessionUserIds().map(user_id => (
       <li key={user_id}>
@@ -59,6 +68,11 @@ export default class TugOfWar extends GameComponent {
         <p>Session creator: {creator}</p>
         <p>Session users:</p>
         <ul>{users}</ul>
+        <div className="main">
+          <div className="rope " style={{ marginLeft: marginLeft }}>
+            <div className="marker" />
+          </div>
+        </div>
       </div>
     );
   }

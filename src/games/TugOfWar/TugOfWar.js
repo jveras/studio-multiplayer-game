@@ -20,7 +20,6 @@ export default class TugOfWar extends GameComponent {
     // }
     //
     this.setState(data);
-    console.log("change", data);
   }
 
   componentDidMount() {
@@ -37,7 +36,12 @@ export default class TugOfWar extends GameComponent {
   }
 
   gameOver() {
-    //var usernames = this.state.users.map
+    var spacebarDifference = Math.abs(this.getSpaceBarDifference());
+    if (spacebarDifference >= 25) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   componentWillUnmount() {
@@ -47,14 +51,16 @@ export default class TugOfWar extends GameComponent {
 
   getSpaceBarDifference() {
     var counters = this.getSessionUserIds().map(user_id => this.state[user_id]);
-    console.log("HELLOOO");
+
     var dif = counters[0] - counters[1];
-    return dif * 10;
+    return dif;
   }
 
   render() {
-    this.gameOver();
-    var marginLeft = this.getSpaceBarDifference();
+    if (this.gameOver()) {
+      document.body.onkeyup = null;
+    }
+    var marginLeft = this.getSpaceBarDifference() * 15;
     var id = this.getSessionId();
     var users = this.getSessionUserIds().map(user_id => (
       <li key={user_id}>

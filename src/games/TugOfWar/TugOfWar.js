@@ -9,7 +9,7 @@ export default class TugOfWar extends GameComponent {
     var myId = this.getMyUserId();
     var defaultValue = {};
     defaultValue[myId] = 0;
-    this.getSessionDatabaseRef().update(defaultValue);
+    //this.getSessionDatabaseRef().update(defaultValue);
     this.state = defaultValue;
   }
 
@@ -24,8 +24,12 @@ export default class TugOfWar extends GameComponent {
 
   componentDidMount() {
     super.componentDidMount();
+    this.setDocumentKeyPressHandler();
+  }
+
+  setDocumentKeyPressHandler() {
     document.body.onkeyup = e => {
-      if (e.keyCode === 32) {
+      if (e.keyCode === 32 && !this.gameOver()) {
         var user = this.getMyUserId();
         var newCounter = this.state[user] + 1;
         this.getSessionDatabaseRef()
@@ -56,27 +60,51 @@ export default class TugOfWar extends GameComponent {
     return dif;
   }
 
+  getWinnerUserId() {
+    var arr = this.getSessionUserIds().map(user_id => UserApi.getName(user_id));
+
+    if (this.getSpaceBarDifference() < 0) {
+      return arr[1];
+    } else {
+      return arr[0];
+    }
+  }
+
+  onResetButtonClicked() {
+    var arr = this.getSessionUserIds();
+    var obj = {};
+    obj[arr[0]] = 0;
+    obj[arr[1]] = 0;
+    this.getSessionDatabaseRef().update(obj);
+  }
+
   render() {
+    var winner = "TBD";
+    var resetButton = <div />;
     if (this.gameOver()) {
-      document.body.onkeyup = null;
+      winner = this.getWinnerUserId();
+
+      resetButton = (
+        <button onClick={() => this.onResetButtonClicked()}>Reset</button>
+      );
     }
     var marginLeft = this.getSpaceBarDifference() * 15;
-    var id = this.getSessionId();
-    var users = this.getSessionUserIds().map(user_id => (
-      <li key={user_id}>
-        {UserApi.getName(user_id) + ": " + this.state[user_id]}
-      </li>
-    ));
-    var creator = UserApi.getName(this.getSessionCreatorUserId());
+
     return (
       <div>
-        <p>Session ID: {id}</p>
-        <p>Session creator: {creator}</p>
-        <p>Session users:</p>
-        <ul>{users}</ul>
+        <div className="text-Cen">
+          <h3>HIT SPACE BAR AND WIN !!!!!</h3>
+          <br />
+          <h1>Winner: {winner}</h1>
+          <br />
+          <div>{resetButton}</div>
+          <br />
+        </div>
         <div className="main">
-          <div className="rope " style={{ marginLeft: marginLeft }}>
-            <div className="marker" />
+          <div className="ropeBorder">
+            <div className="rope " style={{ marginLeft: marginLeft }}>
+              <div className="marker" />
+            </div>
           </div>
         </div>
       </div>
